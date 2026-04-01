@@ -21,7 +21,7 @@ os.makedirs("images", exist_ok=True)
 # Load Dataset
 # ---------------------------------------------------
 print("\nLoading Dataset...")
-data = pd.read_csv("data/cleaned_housing_data.csv")
+data = pd.read_csv("data/cleaned_housing_data.csv")   
 print("Dataset Loaded Successfully")
 
 
@@ -48,21 +48,9 @@ print("\nMissing values handled + duplicates removed")
 
 
 # ---------------------------------------------------
-# Convert Categorical to Numeric
+# Skip Encoding (Already Done)
 # ---------------------------------------------------
-cols = ["mainroad","guestroom","basement",
-        "hotwaterheating","airconditioning","prefarea"]
-
-for c in cols:
-    data[c] = data[c].str.lower().map({"yes":1,"no":0})
-
-data["furnishingstatus"] = data["furnishingstatus"].map({
-    "furnished":2,
-    "semi-furnished":1,
-    "unfurnished":0
-})
-
-print("Categorical conversion done")
+print("Categorical columns already encoded (cleaned data used)")
 
 
 # ---------------------------------------------------
