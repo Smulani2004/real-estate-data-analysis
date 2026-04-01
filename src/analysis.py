@@ -14,7 +14,7 @@ from sklearn.metrics import mean_absolute_error, r2_score
 # Load Dataset
 # ---------------------------------------------------
 print("\nLoading Dataset...")
-data = pd.read_csv("Housing.csv")
+data = pd.read_csv("data/Housing.csv")
 print("Dataset Loaded Successfully")
 
 
