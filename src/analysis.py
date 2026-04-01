@@ -4,10 +4,17 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import os
 
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_absolute_error, r2_score
+
+
+# ---------------------------------------------------
+# Create Images Folder (Auto)
+# ---------------------------------------------------
+os.makedirs("images", exist_ok=True)
 
 
 # ---------------------------------------------------
@@ -32,13 +39,9 @@ print(data.isnull().sum())
 
 
 # ---------------------------------------------------
-# Data Cleaning (IMPROVED)
+# Data Cleaning
 # ---------------------------------------------------
-
-# 1. Remove duplicates
 data = data.drop_duplicates()
-
-# 2. Fill missing values (better than drop)
 data.fillna(data.median(numeric_only=True), inplace=True)
 
 print("\nMissing values handled + duplicates removed")
@@ -63,7 +66,7 @@ print("Categorical conversion done")
 
 
 # ---------------------------------------------------
-# Remove Outliers (MULTIPLE COLUMNS)
+# Remove Outliers
 # ---------------------------------------------------
 def remove_outliers(df, col):
     Q1 = df[col].quantile(0.25)
@@ -82,7 +85,7 @@ print("Outliers removed from multiple columns")
 
 
 # ---------------------------------------------------
-# Feature Engineering (NEW 🔥)
+# Feature Engineering
 # ---------------------------------------------------
 data["price_per_sqft"] = data["price"] / data["area"]
 data["total_rooms"] = data["bedrooms"] + data["bathrooms"]
@@ -98,20 +101,28 @@ print(data.describe())
 
 
 # ---------------------------------------------------
-# Visualization
+# Visualization (SAVE + SHOW)
 # ---------------------------------------------------
 
+# Scatter Plot
 plt.figure()
 plt.scatter(data["area"], data["price"])
 plt.title("Area vs Price")
+plt.savefig("images/scatter.png")
 plt.show()
 
+# Histogram
+plt.figure()
 sns.histplot(data["price"], kde=True)
 plt.title("Price Distribution")
+plt.savefig("images/histogram.png")
 plt.show()
 
+# Heatmap
+plt.figure(figsize=(10,8))
 sns.heatmap(data.corr(), annot=True)
 plt.title("Correlation Heatmap")
+plt.savefig("images/heatmap.png")
 plt.show()
 
 
@@ -140,8 +151,8 @@ print("R2 Score:", r2_score(y_test, predictions))
 
 
 # ---------------------------------------------------
-# Export Clean Dataset
+# Save Clean Dataset
 # ---------------------------------------------------
-data.to_csv("cleaned_housing_data.csv", index=False)
+data.to_csv("data/cleaned_housing_data.csv", index=False)
 
 print("\nProject Completed Successfully")
